@@ -1,0 +1,106 @@
+{
+  "kind": "collectionType",
+  "collectionName": "vendors",
+  "info": {
+    "singularName": "vendor",
+    "pluralName": "vendors",
+    "displayName": "Vendor",
+    "description": "Vendor information for the gig economy platform"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "minLength": 2,
+      "maxLength": 100
+    },
+    "company": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100
+    },
+    "location": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "active",
+        "inactive",
+        "pending"
+      ],
+      "default": "pending"
+    },
+    "description": {
+      "type": "text",
+      "required": false
+    },
+    "services": {
+      "type": "json",
+      "required": false
+    },
+    "specialties": {
+      "type": "json",
+      "required": false
+    },
+    "image": {
+      "type": "string",
+      "required": false,
+      "maxLength": 255
+    },
+    "contact": {
+      "type": "component",
+      "component": "vendor.contact-info",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "phone": {
+      "type": "string",
+      "required": true,
+      "maxLength": 20
+    },
+    "address": {
+      "type": "text",
+      "required": true,
+      "maxLength": 200
+    },
+    "rating": {
+      "type": "decimal",
+      "required": false,
+      "min": 0,
+      "max": 5
+    },
+    "reviews_count": {
+      "type": "integer",
+      "required": false,
+      "default": 0,
+      "min": 0
+    },
+    "website": {
+      "type": "string",
+      "required": false,
+      "maxLength": 255
+    },
+    "social_media": {
+      "type": "json",
+      "required": false
+    },
+    "business_hours": {
+      "type": "json",
+      "required": false
+    },
+    "pricing": {
+      "type": "json",
+      "required": false
+    }
+  }
+} 
