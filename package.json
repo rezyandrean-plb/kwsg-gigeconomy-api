@@ -14,6 +14,7 @@
     "upgrade": "npx @strapi/upgrade latest",
     "upgrade:dry": "npx @strapi/upgrade latest --dry",
     "seed:vendors": "node scripts/seed-vendors.js",
+    "seed:vendors:cloud": "node scripts/seed-vendors-cloud.js",
     "insert:vendors": "node scripts/insert-new-vendors.js",
     "insert:vendors:direct": "node scripts/insert-vendors-direct.js",
     "insert:vendors:final": "node scripts/insert-vendors-final.js",
