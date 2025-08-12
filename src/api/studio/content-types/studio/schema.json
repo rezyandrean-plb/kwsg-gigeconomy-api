@@ -1,0 +1,59 @@
+{
+  "kind": "collectionType",
+  "collectionName": "studios",
+  "info": {
+    "singularName": "studio",
+    "pluralName": "studios",
+    "displayName": "Studio",
+    "description": "Studio information for the gig economy platform"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "minLength": 2,
+      "maxLength": 100
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "active",
+        "maintenance",
+        "inactive"
+      ],
+      "default": "active"
+    },
+    "operatingHours": {
+      "type": "json",
+      "required": false
+    },
+    "address": {
+      "type": "text",
+      "required": true,
+      "maxLength": 500
+    },
+    "image": {
+      "type": "string",
+      "required": false,
+      "maxLength": 255
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "maxLength": 2000
+    },
+    "equipment": {
+      "type": "json",
+      "required": false
+    },
+    "contact": {
+      "type": "component",
+      "component": "studio.contact-info",
+      "required": true
+    }
+  }
+}

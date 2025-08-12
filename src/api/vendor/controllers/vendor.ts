@@ -14,7 +14,7 @@ export default factories.createCoreController('api::vendor.vendor', ({ strapi })
       const filters = {
         ...(query.filters as Record<string, any> || {}),
         ...(query.status && { status: query.status as 'active' | 'inactive' | 'pending' }),
-        ...(query.location && { location: { $containsi: query.location as string } }),
+        ...(query.location && { location: { $contains: query.location as string } }),
         ...(query.services && { services: { $contains: query.services as string } })
       };
 
@@ -138,14 +138,17 @@ export default factories.createCoreController('api::vendor.vendor', ({ strapi })
   // Custom method to get active vendors
   async findActive(ctx) {
     try {
+      // Simple test without filters first
       const vendors = await strapi.entityService.findMany('api::vendor.vendor', {
-        filters: { status: 'active' },
-        populate: ['contact'],
-        sort: { name: 'asc' }
+        populate: ['contact']
       });
 
-      return { data: vendors };
+      // Filter active vendors in memory
+      const activeVendors = vendors.filter(vendor => vendor.status === 'active');
+      
+      return { data: activeVendors };
     } catch (error) {
+      console.error('Error in findActive:', error);
       ctx.throw(500, 'Error fetching active vendors', { error: error.message });
     }
   },
@@ -159,22 +162,25 @@ export default factories.createCoreController('api::vendor.vendor', ({ strapi })
         return ctx.badRequest('Search query is required');
       }
 
+      // Get all vendors first
       const vendors = await strapi.entityService.findMany('api::vendor.vendor', {
-        filters: {
-          $or: [
-            { name: { $containsi: query as string } },
-            { company: { $containsi: query as string } },
-            { description: { $containsi: query as string } },
-            { location: { $containsi: query as string } }
-          ],
-          status: 'active'
-        },
-        populate: ['contact'],
-        sort: { name: 'asc' }
+        populate: ['contact']
       });
 
-      return { data: vendors };
+      // Filter and search in memory
+      const searchQuery = query as string;
+      const searchResults = vendors.filter(vendor => 
+        vendor.status === 'active' && (
+          (typeof vendor.name === 'string' && vendor.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (typeof vendor.company === 'string' && vendor.company.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (typeof vendor.description === 'string' && vendor.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (typeof vendor.location === 'string' && vendor.location.toLowerCase().includes(searchQuery.toLowerCase()))
+        )
+      );
+
+      return { data: searchResults };
     } catch (error) {
+      console.error('Error in search:', error);
       ctx.throw(500, 'Error searching vendors', { error: error.message });
     }
   },
@@ -186,7 +192,7 @@ export default factories.createCoreController('api::vendor.vendor', ({ strapi })
       
       const vendors = await strapi.entityService.findMany('api::vendor.vendor', {
         filters: {
-          location: { $containsi: location },
+          location: { $contains: location },
           status: 'active'
         },
         populate: ['contact'],

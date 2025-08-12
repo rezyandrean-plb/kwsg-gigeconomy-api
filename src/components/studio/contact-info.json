@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_studio_contact_infos",
+  "info": {
+    "displayName": "Contact Info",
+    "description": "Contact information for studios"
+  },
+  "options": {},
+  "attributes": {
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "phone": {
+      "type": "string",
+      "required": true,
+      "maxLength": 20
+    }
+  }
+}
